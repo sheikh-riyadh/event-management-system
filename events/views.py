@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from events.forms import EventModelForm,EventCategoryModelForm, Participant
+from events.forms import EventModelForm,EventCategoryModelForm, ParticipantModelForm
 from django.contrib import messages
 
 # Create event here
@@ -35,10 +35,10 @@ def create_event(request):
 # Create participant here
 
 def create_participant(request):
-   participant = Participant()
+   participant = ParticipantModelForm()
 
    if request.method=="POST":
-      participant = Participant(request.POST)
+      participant = ParticipantModelForm(request.POST)
 
       if participant.is_valid():
          participant.save()

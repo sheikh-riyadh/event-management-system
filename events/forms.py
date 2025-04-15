@@ -29,7 +29,7 @@ class StyleFormMixin:
                     'class': f'{self.common_style}',
                     'placeholder':f'please enter {field_name}'
                 })
-            elif isinstance(field.widget, forms.Select):
+            elif isinstance(field.widget, forms.SelectMultiple):
                 field.widget.attrs.update({
                     'class': self.common_style,
                     'placeholder':f'please enter {field_name}'
@@ -66,7 +66,7 @@ class EventCategoryModelForm(StyleFormMixin, forms.ModelForm):
 
 
 
-class Participant(StyleFormMixin, forms.ModelForm):
+class ParticipantModelForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Participant
         fields = '__all__'
@@ -77,6 +77,6 @@ class Participant(StyleFormMixin, forms.ModelForm):
     
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, kwargs)
+        super().__init__(*args, **kwargs)
         self.apply_style_widget()
         
