@@ -26,12 +26,17 @@ class StyleFormMixin:
                 })
             elif isinstance(field.widget, forms.TimeInput):
                 field.widget.attrs.update({
-                    'class': f'{self.common_style}',
+                    'class': f'{self.common_style} w-full',
                     'placeholder':f'please enter {field_name}'
                 })
             elif isinstance(field.widget, forms.SelectMultiple):
                 field.widget.attrs.update({
-                    'class': self.common_style,
+                    'class': f'{self.common_style} w-full',
+                    'placeholder':f'please enter {field_name}'
+                })
+            elif isinstance(field.widget, forms.EmailInput):
+                field.widget.attrs.update({
+                    'class': f'{self.common_style} w-full',
                     'placeholder':f'please enter {field_name}'
                 })
 

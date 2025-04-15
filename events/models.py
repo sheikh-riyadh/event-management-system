@@ -4,7 +4,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=50,verbose_name="category name", unique=True)
-    description = models.TextField(verbose_name="category description")
+    category_description = models.TextField(verbose_name="category description")
 
     def __str__(self):
         return self.name
@@ -12,7 +12,7 @@ class Category(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=50, verbose_name="event name", unique=True)
+    title = models.CharField(max_length=50, verbose_name="event name", unique=True)
     description = models.TextField( verbose_name="event description")
     date = models.DateField()
     time = models.TimeField()
@@ -21,7 +21,7 @@ class Event(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 
