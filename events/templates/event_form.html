@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event form</title>
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+  </head>
+  <body>
+    <main>
+      <section class="h-screen flex items-center justify-center">
+        <div class="w-1/2 shadow-lg p-5 rounded-lg">
+          <div>
+            <p>{% if messages %}
+              {% for message in messages  %}
+                {{message}}
+              {% endfor %}
+              {% endif %}</p>
+          </div>
+          <form method="POST" class="flex flex-col gap-5 w-full ">
+            {% csrf_token %} 
+             <div class="flex gap-5">
+                <div class="flex flex-col gap-5">
+                {{event_form.as_p}}
+                </div>
+                <div class="flex flex-col gap-5">
+                {{category_form.as_p}}
+                </div>
+             </div>
+            <button class="bg-green-500 text-white px-5 py-1 rounded">Submit</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
