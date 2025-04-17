@@ -3,7 +3,7 @@ from events.models import Event, Category, Participant
 
 
 class StyleFormMixin:
-    common_style = "border border-2 p-5 outline:none rounded"
+    common_style = "border border-2 p-5 outline:none rounded text-black"
 
     def apply_style_widget(self):
         for field_name, field in self.fields.items():

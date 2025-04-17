@@ -2,6 +2,12 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from events.forms import EventModelForm,EventCategoryModelForm, ParticipantModelForm
 from django.contrib import messages
+from events.models import Category
+
+
+# Dashboard
+def dashboard(request):
+   return render(request, 'dashboard.html')
 
 # Create event here
 def create_event(request):
@@ -28,12 +34,9 @@ def create_event(request):
         'category_form': category
     }
         
-    return render(request, 'event_form.html', context)
-              
-
+    return render(request, 'event_form.html', context)              
 
 # Create participant here
-
 def create_participant(request):
    participant = ParticipantModelForm()
 
@@ -52,6 +55,20 @@ def create_participant(request):
    }
 
    return render(request, 'participant_form.html', context)
+
+# Update category here
+def update_category(request, id):
+   updated_category = Category.objects.get(id=id)
+   category = EventCategoryModelForm(instance=update_category)
+   if request.method=="POST":
+      category = EventCategoryModelForm(request.POST, instance=update_category)
+      if category.is_valid():
+         category.save()
+         messages.success(request, "Updated category successfully")
+      else:
+         messages.error(request, "Something went wrong")
    
-    
-   
+   context={
+      'category_form':category
+   }
+   return render(request, 'category_form.html', context)

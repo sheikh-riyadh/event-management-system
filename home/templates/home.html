@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+    <title>Home</title>
+  </head>
+  <body>
+    <header class="text-white p-4 w-full fixed top-0 z-50">
+      <div class="grid grid-cols-2 items-center">
+        <figure class="h-10">
+          <img
+            src="https://demo.ovathemewp.com/em4u/wp-content/uploads/2017/10/logo_white.png"
+            alt="EMP4U Logo"
+            class="h-full w-auto"
+          />
+        </figure>
+
+        <nav class="flex justify-end">
+          <ul class="flex gap-4">
+            <li>
+              <a href="{% url 'dashboard' %}" class="hover:underline"
+                >Dashboard</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section
+        class="relative h-screen w-full px-10 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col items-center justify-center bg-cover bg-center"
+      >
+        
+          <div class="grid grid-cols-2 gap-10 w-full z-20">
+            <div></div>
+              <div class="w-full border p-5 rounded-lg m-5 bg-black opacity-70">
+                <div>
+                  <p>
+                    {% if messages %} 
+                        {% for message in messages %}
+                          {{message}}
+                        {% endfor %}
+                     {% endif %}
+                  </p>
+                </div>
+                <form method="POST" class="flex flex-col gap-5 w-full">
+                  {% csrf_token %} {{participant_form.as_p}}
+                  <button class="bg-green-500 text-white px-5 py-1 rounded">
+                    Register
+                  </button>
+                </form>
+              </div>
+          </div>
+          <div class='absolute bg-black top-0 w-full h-full opacity-70'></div>
+      </section>
+    </main>
+  </body>
+</html>
