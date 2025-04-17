@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from events.forms import ParticipantModelForm
+from events.models import Event
 from django.contrib import messages
 
 # Create your views here.
 
 def home(request):
    participant = ParticipantModelForm()
+
+   base_query = Event.objects.select_related('category').prefetch_related('event').all()
 
    if request.method=="POST":
       participant = ParticipantModelForm(request.POST)
@@ -18,7 +21,9 @@ def home(request):
 
 
    context={
-      'participant_form': participant
+      'participant_form': participant,
+      'events':base_query
+
    }
 
    return render(request, 'home.html', context)

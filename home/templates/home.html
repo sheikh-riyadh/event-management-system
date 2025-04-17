@@ -8,7 +8,7 @@
     <title>Home</title>
   </head>
   <body>
-    <header class="text-white p-4 w-full fixed top-0 z-50">
+    <header class="text-white px-10 py-4 w-full fixed top-0 z-50 bg-black opacity-70">
       <div class="grid grid-cols-2 items-center">
         <figure class="h-10">
           <img
@@ -34,10 +34,14 @@
       <section
         class="relative h-screen w-full px-10 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col items-center justify-center bg-cover bg-center"
       >
-        
-          <div class="grid grid-cols-2 gap-10 w-full z-20">
-            <div></div>
-              <div class="w-full border p-5 rounded-lg m-5 bg-black opacity-70">
+          <div class="grid grid-cols-2 gap-10 w-full z-10">
+            <div class="flex flex-col items-center justify-center">
+              <div class="flex flex-col gap-5 text-white">
+                <h1 class="text-7xl font-bold leading-tight">Technologies event in the city</h1>
+                <span>"Exploring Innovation, Startups, and the Future of Tech in Our Community"</span>
+              </div>
+            </div>
+              <div class="w-full border p-5 rounded-lg m-5 bg-black opacity-70 text-white">
                 <div>
                   <p>
                     {% if messages %} 
@@ -49,13 +53,39 @@
                 </div>
                 <form method="POST" class="flex flex-col gap-5 w-full">
                   {% csrf_token %} {{participant_form.as_p}}
-                  <button class="bg-green-500 text-white px-5 py-1 rounded">
+                  <button class="bg-[#f53f7a] text-white p-4 py-1 rounded">
                     Register
                   </button>
                 </form>
               </div>
           </div>
           <div class='absolute bg-black top-0 w-full h-full opacity-70'></div>
+      </section>
+
+      <section>
+        <div class="flex flex-col items-center justify-center w-full -m-5">
+          <div class="flex items-center w-3/4 bg-white border-2 z-20 rounded-full" 
+          style="padding:10px 20px 10px 20px"
+          >
+            <input class="w-full" type="text"
+            style="outline:none"
+            placeholder="Search...."
+            >
+            <button class="font-medium" type="button">Search</button>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="flex flex-col items-center mt-20">
+        <span class="border-b-4 font-bold text-4xl uppercase">Our events</span>
+        <div class="p-10 grid grid-cols-5 gap-5">
+          {% for event in events %}
+            <div class="border rounded-xl p-5">
+              <h2>{{event.title}}</h2>
+            </div>
+          {% endfor %}
+        </div>
       </section>
     </main>
   </body>
