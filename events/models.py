@@ -28,6 +28,6 @@ class Event(models.Model):
 class Participant(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    event = models.ManyToManyField(Event, related_name='event')
+    event = models.ManyToManyField(Event, related_name='participants')
 
 

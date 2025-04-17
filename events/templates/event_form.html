@@ -10,7 +10,7 @@
   <body>
     <main>
       <section class="h-screen flex items-center justify-center">
-        <div class="w-full md:w-1/2 border p-5 rounded-lg h-[600px] overflow-y-auto m-5">
+        <div class="w-full md:w-1/2 bg-black text-white border p-5 rounded-lg h-[500px] overflow-y-auto m-5">
           <div>
             <p>{% if messages %}
               {% for message in messages  %}
@@ -22,7 +22,7 @@
             {% csrf_token %} 
                 {{event_form.as_p}}
                 {{category_form.as_p}}
-            <button class="bg-green-500 text-white px-5 py-1 rounded">Submit</button>
+            <button class="bg-[#f53f7a] text-white p-4 py-1 rounded">Submit</button>
           </form>
         </div>
       </section>
