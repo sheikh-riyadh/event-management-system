@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+    <title>{% block title %}Dashboard{% endblock title %}</title>
+</head>
+<body>
+    <main>
+        {% if type == 'event' or type == 'category' %}
+            <section class="flex flex-col items-center justify-center w-full h-screen">
+                <div class="text-white bg-black w-3/5 h-4/5 overflow-y-auto border rounded p-10">
+                    {% block message %}{% endblock message %}
+                    {% if type == 'event' %}
+                        {% block event_form %}{% endblock event_form %}
+                    {% else %}
+                        {% block category %}{% endblock category %}
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+</body>
+</html>

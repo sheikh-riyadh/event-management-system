@@ -31,10 +31,11 @@ def create_event(request):
 
     context ={
         "event_form":form,
-        'category_form': category
+        'category_form': category,
+        'type':'event'
     }
         
-    return render(request, 'event_form.html', context)              
+    return render(request, 'reusable/event_form.html', context)              
 
 # Create participant here
 def create_participant(request):
@@ -59,9 +60,14 @@ def create_participant(request):
 # Update category here
 def update_category(request, id):
    updated_category = Category.objects.get(id=id)
-   category = EventCategoryModelForm(instance=update_category)
+   print(updated_category)
+   category = EventCategoryModelForm()
+   
+   if updated_category:
+      category = EventCategoryModelForm(instance=updated_category)
+
    if request.method=="POST":
-      category = EventCategoryModelForm(request.POST, instance=update_category)
+      category = EventCategoryModelForm(request.POST, instance=updated_category)
       if category.is_valid():
          category.save()
          messages.success(request, "Updated category successfully")
@@ -69,6 +75,7 @@ def update_category(request, id):
          messages.error(request, "Something went wrong")
    
    context={
-      'category_form':category
+      'category_form':category,
+      'type':'category'
    }
-   return render(request, 'category_form.html', context)
+   return render(request, 'reusable/category_form.html', context)

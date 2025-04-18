@@ -7,19 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static "css/output.css" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <title>Home</title>
   </head>
   <body>
     <header class="text-white md:px-10 py-4 w-full fixed top-0 z-50 bg-black opacity-70">
       <div class="grid grid-cols-2 items-center">
-        <figure class="h-10">
-          <img
-            src="https://demo.ovathemewp.com/em4u/wp-content/uploads/2017/10/logo_white.png"
-            alt="EMP4U Logo"
-            class="h-full w-auto"
-          />
-        </figure>
+        <a href="{% url "home" %}">
+          <figure class="h-10">
+            <img
+              src="https://demo.ovathemewp.com/em4u/wp-content/uploads/2017/10/logo_white.png"
+              alt="EMP4U Logo"
+              class="h-full w-auto"
+            />
+          </figure>
+        </a>
 
         <nav class="flex justify-end">
           <ul class="flex gap-4">
@@ -67,27 +68,29 @@
 
       <section>
         <div class="flex flex-col items-center justify-center w-full -m-5">
-          <div class="flex items-center w-3/4 bg-white border-2 z-20 rounded-full" 
-          style="padding:10px 20px 10px 20px"
-          >
-            <input class="w-full" type="text"
-            style="outline:none"
-            placeholder="Search...."
+          <form action="{% url 'home' %}" method="GET" class="flex items-center w-3/4 bg-white border-2 z-20 rounded-full"
+            style="padding:10px 20px 10px 20px">
+            <input class="w-full" type="text" name="search"
+              style="outline:none"
+              placeholder="Search event..."
             >
-            <button class="font-medium" type="button">Search</button>
-          </div>
+            <button class="font-medium" type="submit">Search</button>
+          </form>
         </div>
       </section>
+      
 
 
       <section class="flex flex-col items-center my-20 px-10">
         <span class="border-b-4 font-bold text-4xl uppercase">Our events</span>
-        <div class="mt-10 grid md:grid-cols-3 gap-5">
-          {% for event in events %}
+
+        {% if events|length %}
+          <div class="mt-10 grid md:grid-cols-3 gap-5">
+            {% for event in events %}
             <div class="border rounded-xl p-5 w-full flex flex-col gap-2">
               <div class="flex flex-col gap-2">
                 <div>
-                  <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" srcset="">
+                  <img class="rounded-xl" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" srcset="">
                 </div>
                 <h2>{{event.title}}</h2>
                 <p>{{event.description}}</p>
@@ -121,7 +124,13 @@
               </div>
             </div>
           {% endfor %}
-        </div>
+          </div>
+          {% else %}
+            <div class="flex flex-col items-center my-5 gap-2">
+              <i class="fa-solid fa-face-sad-cry text-6xl text-[#f53f7a]"></i>
+              <span class="font-bold text-xl">Data not found</span>
+            </div>
+        {% endif %}
       </section>
     </main>
   </body>

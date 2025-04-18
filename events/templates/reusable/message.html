@@ -1,0 +1,10 @@
+{% extends "reusable/event.html" %}
+{% block message_block %}
+    <p>
+        {% if messages %}
+            {% for message in messages  %}
+                {{message}}
+            {% endfor %}
+        {% endif %}
+    </p>
+{% endblock message_block %}
