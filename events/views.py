@@ -5,16 +5,12 @@ from django.contrib import messages
 from events.models import Category
 
 
-# Dashboard
-def dashboard(request):
-   return render(request, 'dashboard.html')
-
 # Create event here
 def create_event(request):
     form = EventModelForm()
     category = EventCategoryModelForm()
 
-    if request.method=="POST":
+    if request.method == "POST":
         form = EventModelForm(request.POST)
         category = EventCategoryModelForm(request.POST)
 
@@ -31,11 +27,10 @@ def create_event(request):
 
     context ={
         "event_form":form,
-        'category_form': category,
-        'type':'event'
+        'category_form': category
     }
         
-    return render(request, 'reusable/event_form.html', context)              
+    return render(request, 'event.html', context)              
 
 # Create participant here
 def create_participant(request):
@@ -55,7 +50,24 @@ def create_participant(request):
       'participant_form': participant
    }
 
-   return render(request, 'participant_form.html', context)
+   return render(request, 'participant.html', context)
+
+# Create category from here
+def create_category(request):
+   form = EventCategoryModelForm()
+
+   if request.method=="POST":
+      form = EventCategoryModelForm(request.POST)
+      if form.is_valid():
+         form.save()
+         messages.success(request, "Created category successfully")
+      else:
+         messages.error(request, "Something went wrong")
+   
+   context={
+      'category_form':form
+   }
+   return render(request, 'category.html', context)
 
 # Update category here
 def update_category(request, id):
@@ -75,7 +87,6 @@ def update_category(request, id):
          messages.error(request, "Something went wrong")
    
    context={
-      'category_form':category,
-      'type':'category'
+      'category_form':category
    }
-   return render(request, 'reusable/category_form.html', context)
+   return render(request, 'category.html', context)

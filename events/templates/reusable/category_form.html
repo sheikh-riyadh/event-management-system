@@ -1,9 +1,7 @@
-{% extends "event.html" %}
-{% block title %}Category{% endblock title %}
-{% block category %}
-    <form method="POST" class="flex flex-col gap-5 w-full">
+{% block category_form %}
+    <form method="POST" class="flex flex-col gap-5 w-full text-white">
         {% csrf_token %} 
         {{category_form.as_p}}
-        <button class="bg-green-500 text-white px-5 py-1 rounded">Update</button>
+        <button class="bg-[#f53f7a] text-white p-4 py-1 rounded uppercase font-bold">Save</button>
     </form>
-{% endblock category %}
+{% endblock category_form %}

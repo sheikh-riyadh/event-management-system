@@ -2,22 +2,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static "css/output.css" %}" />
-    <title>{% block title %}Dashboard{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+    <title>Category</title>
 </head>
-<body class="bg-gray-900 text-white">
+<body>
     <main class="flex items-center justify-center h-screen bg-[url('https://images.unsplash.com/photo-1669295384050-a1d4357bd1d7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-center bg-cover">
         <section>
-            <div class="bg-black opacity-85 h-[500px] p-10 overflow-y-auto rounded m-5 border">
+            <div class="bg-black opacity-85 p-10 rounded m-5 border">
                 {% block message_block %}
                     {% include "reusable/message.html" %}
                 {% endblock message_block %}
-
-                {% block event_form %}
-                    {% include "reusable/event_form.html" %}
-                {% endblock event_form %}
+                {% block category_form %}
+                    {% include "reusable/category_form.html" %}
+                {% endblock category_form %}
             </div>
         </section>
     </main>

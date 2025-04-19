@@ -1,7 +1,5 @@
-{% extends "event.html" %}
-{% block title %}Event{% endblock title %}
 {% block event_form %}
-    <form method="POST" class="flex flex-col gap-5 w-full">
+    <form method="POST" class="flex flex-col gap-5 w-full text-white">
         {% csrf_token %} 
             {{event_form.as_p}}
             {{category_form.as_p}}

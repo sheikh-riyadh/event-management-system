@@ -1,0 +1,7 @@
+{% block participant %}
+    <form method="POST" class="flex flex-col gap-5 w-full text-white">
+        {% csrf_token %} {{participant_form.as_p}}
+        <button class="bg-[#f53f7a] text-white p-4 py-1 rounded">Register</button>
+    </form>
+{% endblock participant %}
+
