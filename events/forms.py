@@ -69,8 +69,6 @@ class EventCategoryModelForm(StyleFormMixin, forms.ModelForm):
         self.apply_style_widget()
     
 
-
-
 class ParticipantModelForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Participant

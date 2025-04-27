@@ -31,16 +31,110 @@
             </div>
         </section>
         <section class="flex flex-col items-center justify-center">
-            <div class="flex items-center justify-between w-3/4 bg-white border-2 z-20 rounded -mt-14 p-10">
-              <div class="font-medium text-xl">
+            <div class="grid grid-cols-3 w-3/4 bg-white border-2 z-20 rounded -mt-14">
+              <div class="p-10 font-medium {% if type == 'event' %}font-medium text-xl p-10 w-full bg-[#f53f7a] text-white{% endif %}">
                 <a href="{% url 'dashboard' %}?type=event">All Event</a>
               </div>
-              <div class="font-medium text-xl">
+              <div class="p-10 font-medium {% if type == 'categories' %}font-medium text-xl p-10 w-full bg-[#f53f7a] text-white{% endif %}">
                 <a href="{% url 'dashboard' %}?type=categories">Categories</a>
               </div>
-              <div class="font-medium text-xl">
+              <div class="p-10 font-medium {% if type == 'participants' %}font-medium text-xl p-10 w-full bg-[#f53f7a] text-white{% endif %}">
                 <a href="{% url 'dashboard' %}?type=participants">Participant</a>
               </div>
+            </div>
+          </section>
+          
+          <section class="flex flex-col items-center justify-center">
+            <div class="w-3/4 my-20">
+                {% if type == 'event' %}
+                    {% if event|length %}
+                    <div class="grid grid-cols-3 gap-5">
+                        {% for event in data %}
+                            <div class="border rounded-xl p-5 w-full flex flex-col gap-2">
+                                <div class="flex flex-col gap-2">
+                                <div>
+                                    <img class="rounded-xl" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" srcset="">
+                                </div>
+                                <h2>{{event.title}}</h2>
+                                <p>{{event.description}}</p>
+                                <div class="flex items-center gap-3">
+                                    <i class=" text-[#f53f7a] text-xl fa-solid fa-clock"></i>
+                                    <div>
+                                    <span class="uppercase">{{event.date}}</span>
+                                    <span class="uppercase">{{event.time}}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class=" text-[#f53f7a] text-xl fa-solid fa-circle-check"></i>
+                                    <span>{{event.category.name}}</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class=" text-[#f53f7a] text-xl fa-solid fa-location-dot"></i>
+                                    <span>{{event.location}}</span>
+                                </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-circle-user text-xl text-[#f53f7a]"></i>
+                                <div class="flex items-center -space-x-2">
+                                    {% for participant in event.participants.all|slice:':5' %}
+                                    <div class="flex items-center">
+                                    <span class="w-8 h-8 bg-blue-400 rounded-full border flex items-center justify-center">{{participant.name|slice:'0:1'}}</span>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div>
+                        <span class="font-semibold">Event not found</span>
+                    </div>
+                    {% endif %}
+                {% elif type == 'categories' %}
+                    <div class="grid grid-cols-3 gap-5">
+                        {% if data|length %}
+                            {% for category in data %}
+                                <div class="border p-5 rounded-xl">
+                                    <span>{{category.name}}</span>
+                                    <p>{{category.category_description}}</p>
+                                    <div>
+                                        <a href="{% url 'update-category' category.id %}">Update</a>
+                                        <form action="{% url 'delete-category' category.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex flex-col items-center">
+                                <span class="font-semibold">No category data found</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="grid grid-cols-3 gap-5">
+                        {% if data|length %}
+                            {% for participant in data %}
+                                <div class="border p-5 rounded-xl">
+                                    <span>Name: {{participant.name}}</span>
+                                    <p>Email: {{participant.email}}</p>
+                                    <div class="flex flex-col">
+                                        {% for event in participant.events.all %}
+                                            <span>Event title: {{event.title}}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <span class="font-semibold">No participant data found</span>
+                            </div>
+                            
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
           </section>
     </main>

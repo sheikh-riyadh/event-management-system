@@ -68,25 +68,3 @@ def create_category(request):
       'category_form':form
    }
    return render(request, 'category.html', context)
-
-# Update category here
-def update_category(request, id):
-   updated_category = Category.objects.get(id=id)
-   print(updated_category)
-   category = EventCategoryModelForm()
-   
-   if updated_category:
-      category = EventCategoryModelForm(instance=updated_category)
-
-   if request.method=="POST":
-      category = EventCategoryModelForm(request.POST, instance=updated_category)
-      if category.is_valid():
-         category.save()
-         messages.success(request, "Updated category successfully")
-      else:
-         messages.error(request, "Something went wrong")
-   
-   context={
-      'category_form':category
-   }
-   return render(request, 'category.html', context)
