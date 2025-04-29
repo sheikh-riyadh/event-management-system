@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from events.forms import EventModelForm,EventCategoryModelForm, ParticipantModelForm
 from django.contrib import messages
 from events.models import Category
+from django.urls import reverse
 
 
 # Create event here
@@ -21,7 +22,8 @@ def create_event(request):
          form_instance.save()
 
          messages.success(request, "Created event successfully")
-         return redirect("event")
+         url = reverse('dashboard')
+         return redirect(f'{url}?type=event')
         else:
            messages.error(request, "There was an error in the form. Please check your inputs.")
 
@@ -61,6 +63,8 @@ def create_category(request):
       if form.is_valid():
          form.save()
          messages.success(request, "Created category successfully")
+         url = reverse('dashboard')
+         return redirect(f'{url}?type=category')
       else:
          messages.error(request, "Something went wrong")
    

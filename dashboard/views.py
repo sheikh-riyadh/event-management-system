@@ -1,27 +1,56 @@
 from django.shortcuts import render, redirect
 from events.models import Category, Event, Participant
-from events.forms import EventCategoryModelForm
+from events.forms import EventCategoryModelForm, EventModelForm
 from django.contrib import messages
 from django.urls import reverse
 
 # Create your views here.
 def event_dashboard(request):
-   request_type = request.GET.get('type','event')
-   data= None
+   request_type = request.GET.get('type', 'event')
+   data = None
 
-   if request_type == "event":
-      data = Event.objects.select_related('category').prefetch_related('participants').all()
-   elif request_type == "categories":
-      data = Category.objects.all()
+   if request_type == 'event':
+      data = Event.objects.select_related('category').prefetch_related('participants')
+   elif request_type == 'category':
+      data = Category.objects.prefetch_related('events')
    else:
-      data = Participant.objects.prefetch_related('events').all()
+      data = Participant.objects.prefetch_related('events__category')
+
 
    context={
-      'data':data,
-      'type':request_type
+      'data' : data,
+      'request_type' : request_type,
+      'url_name' : f"create-{request_type}",
+      'button_name' : f"Create {request_type}"
    }
 
    return render(request, 'dashboard.html', context)
+
+def update_event(request, id):
+   update_event = Event.objects.get(id=id)
+   form = EventModelForm(instance=update_event)
+
+   if request.method == 'POST':
+      form = EventModelForm(request.POST, instance=update_event)
+      if form.is_valid():
+         form.save()
+         url = reverse('dashboard')
+         return redirect(f'{url}?type=event')
+
+   context = {
+      'event_form':form
+   }
+
+   return render(request, 'event.html', context)
+
+def delete_event(request, id):
+   delete_item = Event.objects.get(id=id)
+
+   if request.method == 'POST':
+      if delete_item:
+         delete_item.delete()
+         url = reverse('dashboard')
+         return redirect(f'{url}?type=event')
 
 def update_category(request, id):
    updated_category = Category.objects.get(id=id)
@@ -32,7 +61,7 @@ def update_category(request, id):
       if form.is_valid():
          form.save()
          url = reverse('dashboard')
-         return redirect(f'{url}?type=categories')
+         return redirect(f'{url}?type=category')
    
    context={
       'category_form':form
@@ -46,7 +75,7 @@ def delete_category(request, id):
       if delete_item:
          delete_item.delete()
          url = reverse('dashboard')
-         return redirect(f'{url}?type=categories')
+         return redirect(f'{url}?type=category')
       
    
 
