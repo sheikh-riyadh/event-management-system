@@ -44,6 +44,7 @@ def create_participant(request):
       if participant.is_valid():
          participant.save()
          messages.success(request, "Participant created successfully")
+         return redirect('dashboard')
       else:
          messages.error(request,"There was an error in the form. Please check your inputs")
 

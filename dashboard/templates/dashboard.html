@@ -43,14 +43,23 @@
             <div class="my-20 w-11/12 mx-auto border p-5 rounded-md">
                 <div class="flex flex-col items-end">
                     <div class="flex items-center gap-5">
-                        <div>
-                            <form method="get" class="px-5 py-2">
-                                <select name="category" id="" class="px-5 py-2 border rounded-md outline-none">
-                                    <option value="">Python</option>
-                                    <option value="">JavaScript</option>
-                                </select>
-                            </form>
-                        </div>
+                        {% if request_type != 'participant' %}
+                            <div>
+                                <form method="get" class="px-5 py-2">
+                                    <input type="hidden" name="type" value="{{ request_type }}">
+                                    <select name="selected_category" class="px-5 py-2 border rounded-md outline-none"
+                                            onchange="this.form.submit()">
+                                            <option value="">Choose</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.name }}" {% if category.name == selected_category %}selected{% endif %}>
+                                                {{ category.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                                
+                            </div>
+                        {% endif %}
                         <div>
                             <a class="px-5 py-2 block bg-pink-500 text-white font-medium rounded-md hover:bg-transparent hover:text-pink-500 border hover:border-pink-500 duration-300 " href="{% url url_name %}">{{button_name}}</a>
                         </div>
@@ -70,11 +79,18 @@
                                 <th class="border border-gray-300 px-4 py-2">Action</th>
                             </tr>
                             {% elif request_type == 'category' %}
-                            <tr>
-                                <th class="border border-gray-300 px-4 py-2">Category name</th>
-                                <th class="border border-gray-300 px-4 py-2">Description</th>
-                                <th class="border border-gray-300 px-4 py-2">Action</th>
-                            </tr>
+                                <tr>
+                                    <th class="border border-gray-300 px-4 py-2">Category name</th>
+                                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                                    <th class="border border-gray-300 px-4 py-2">Action</th>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <th class="border border-gray-300 px-4 py-2">Name</th>
+                                    <th class="border border-gray-300 px-4 py-2">Email</th>
+                                    <th class="border border-gray-300 px-4 py-2">Event name</th>
+                                    <th class="border border-gray-300 px-4 py-2">Action</th>
+                                </tr>
                         {% endif %}
                     </thead>
                     <tbody>
@@ -136,10 +152,37 @@
                                     </td>
                                 </tr>
                             {% endfor %}
+                            {% else %}
+                                {% for participant in data %}
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">{{participant.name}}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">{{participant.email}}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <div class="flex flex-col">
+                                                {% for event in participant.events.all %}
+                                                    <span>{{event.title}}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <div class="flex items-center gap-5">
+                                                <a title="Update" href="{% url 'update-participant' participant.id %}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                                <form action="{% url "delete-participant" participant.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button title="Delete" type="submit">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
                         {% endif %}
                     </tbody>
                 </table>
-                
             </div>
         </section>
     </main>
